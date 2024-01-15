@@ -5,7 +5,7 @@ export default function Footer() {
     <footer className="text-center bg-black text-white font-semibold text-sm py-3 px-6">
       <p>Created and Mainted by <Link target="_blank" href="https://www.instagram.com/sr_pumpkin_/">
         Lucas
-      </Link> - &copy; 2024 All ights reserved</p>
+      </Link> - &copy; 2024 All rights reserved</p>
     </footer>
   );
 }
