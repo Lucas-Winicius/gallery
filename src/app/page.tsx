@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
+import Error from "@/components/Error";
 import { useEffect, useState } from "react";
 
 export default function Home() {
@@ -20,7 +21,7 @@ export default function Home() {
   }
 
   if (pictures == 1) {
-    return <h1>ERRO</h1>;
+    return <Error />;
   }
 
   return <main className="flex-grow">{JSON.stringify(pictures)}</main>;
