@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
+import Empty from "@/components/Empty";
 import Error from "@/components/Error";
 import { useEffect, useState } from "react";
 
@@ -17,7 +18,7 @@ export default function Home() {
   }, []);
 
   if (pictures == 0) {
-    return <h1>VAZIO</h1>;
+    return <Empty />;
   }
 
   if (pictures == 1) {
