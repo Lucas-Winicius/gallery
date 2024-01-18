@@ -1,9 +1,9 @@
 type Picture = {
-  id: String;
-  name: String;
-  description: String;
-  url: String;
-  tags: String[];
+  id: string;
+  name: string;
+  description: string;
+  url: string;
+  tags: string[];
   createdAt: Date;
   updatedAt: Date;
 };
