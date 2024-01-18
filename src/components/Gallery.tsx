@@ -23,7 +23,7 @@ export default function Gallery({ pictures }: { pictures?: Picture[] }) {
               <img
                 src={picture.url}
                 alt={picture.name}
-                className="w-full h-full object-cover rounded-lg"
+                className="w-full h-full object-cover rounded-lg transition-transform  hover:scale-95"
               />
             </div>
           </DialogTrigger>
