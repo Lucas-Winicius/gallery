@@ -4,9 +4,14 @@ import "./globals.css";
 import Header from "../components/Header";
 import Footer from "@/components/Footer";
 const inter = Inter({ subsets: ["latin"] });
+import { Toaster } from "@/components/ui/toaster"
+
 
 export const metadata: Metadata = {
-  title: "Gallery",
+  title: {
+    template: '%s - Gallery',
+    default: 'Gallery',
+  },
   description: `Welcome to my Gallery, a space dedicated to the art of photography!
   Explore a visually captivating world through the lens, where each image tells a unique story. 
   From breathtaking landscapes to emotional portraits, this is where beauty meets creativity. 
@@ -26,6 +31,7 @@ export default function RootLayout({
       <body className={inter.className + " flex flex-col min-h-screen"}>
         <Header />
         {children}
+        <Toaster />
         <Footer />
       </body>
     </html>
