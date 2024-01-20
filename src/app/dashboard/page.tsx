@@ -11,7 +11,7 @@ import {
 import { useToast } from "@/components/ui/use-toast";
 import creationDate from "@/lib/creationDate";
 import { PlusIcon, TrashIcon } from "@/patterns/phosphoricons";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, MouseEventHandler, useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import axios from "axios";
 
@@ -75,6 +75,33 @@ export default function Dashboard() {
     })
       .then((d) => {
         setPictures(Array.isArray(pictures) ? [d.data, ...pictures] : [d.data]);
+      })
+      .catch((e) =>
+        toastCreator({
+          title: "Ooopss!",
+          description: JSON.stringify(e.message),
+          destructive: true,
+        })
+      );
+  };
+
+  const deletePicture = (id: string) => {
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+    const authCode = Cookies.get("auth");
+
+    axios({
+      method: "DELETE",
+      url: `${apiUrl}/gallery/${id}`,
+      params: {
+        authCode,
+      },
+    })
+      .then((response) => response.data)
+      .then((data) => {
+        const newPictures = pictures?.filter(
+          (picture) => data.id !== picture.id
+        );
+        setPictures(newPictures);
       })
       .catch((e) =>
         toastCreator({
@@ -152,7 +179,12 @@ export default function Dashboard() {
               <TableCell>{picture.tags.join(", ")}</TableCell>
               <TableCell>{creationDate(picture.createdAt)}</TableCell>
               <TableCell>
-                <TrashIcon color="black" />
+                <button
+                  className="cursor-pointer"
+                  onClick={() => deletePicture(picture.id)}
+                >
+                  <TrashIcon color="black" />
+                </button>
               </TableCell>
             </TableRow>
           ))}
