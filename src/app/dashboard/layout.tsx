@@ -9,5 +9,5 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <div className="flex-grow flex justify-center items-center my-5">{children}</div>;
+  return <div className="flex-grow flex justify-center my-5">{children}</div>;
 }
