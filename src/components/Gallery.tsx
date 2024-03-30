@@ -1,6 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
-import { CopyIcon } from "@radix-ui/react-icons";
-
 import {
   Dialog,
   DialogClose,
@@ -19,13 +16,13 @@ export default function Gallery({ pictures }: { pictures?: Picture[] }) {
       {pictures?.map((picture) => (
         <Dialog key={picture.id}>
           <DialogTrigger asChild>
-            <div key={picture.id} className="aspect-ratio-1x1">
+            <button key={picture.id} className="aspect-ratio-1x1">
               <img
                 src={picture.url}
                 alt={picture.name}
-                className="w-full h-full object-cover rounded-lg transition-transform  hover:scale-95"
+                className="w-full h-full object-cover rounded-lg transition-transform flex justify-center items-center bg-slate-300 hover:scale-95"
               />
-            </div>
+            </button>
           </DialogTrigger>
           <DialogContent className="sm:max-w-md">
             <DialogHeader>

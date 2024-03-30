@@ -1,40 +1,10 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-"use client";
-import Empty from "@/components/Empty";
-import Error from "@/components/Error";
 import Gallery from "@/components/Gallery";
-import Welcome from "@/components/Welcome";
-import Image from "next/image";
-import { useEffect, useState } from "react";
 
-export default function Home() {
-  const [pictures, setPictures] = useState<HomeData>({ status: "WELCOME" });
+export default async function Home() {
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
-  useEffect(() => {
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+  const response = await fetch(`${apiUrl}/gallery`);
+  const pictures = await response.json();
 
-    fetch(`${apiUrl}/gallery`)
-      .then((res) => res.json())
-      .then((data) => {
-        setPictures({
-          status: !!data?.length ? "SUCCESS" : "EMPTY",
-          data,
-        });
-      })
-      .catch(() => setPictures({ status: "ERROR" }));
-  }, []);
-
-  if (pictures.status === "WELCOME") {
-    return <Welcome />;
-  }
-
-  if (pictures.status === "EMPTY") {
-    return <Empty />;
-  }
-
-  if (pictures.status === "ERROR") {
-    return <Error />;
-  }
-
-  return <Gallery pictures={pictures.data} />;
+  return <Gallery pictures={pictures} />;
 }
