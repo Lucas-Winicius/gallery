@@ -1,13 +1,8 @@
 "use client";
 import { toast } from "@/components/ui/use-toast";
 import Cookie from "js-cookie";
-import {
-  ChangeEvent,
-  FormEvent,
-  MouseEventHandler,
-  useEffect,
-  useState,
-} from "react";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import sendPicture from "./handlers/sendPicture.handler";
 
 export default function Cookies() {
   const [cookie, setCookie] = useState("");
@@ -71,18 +66,24 @@ export default function Cookies() {
     <main className="flex flex-col space-y-5 items-center max-w-screen-md">
       <div className="flex flex-col bg-slate-200 shadow space-y-3 p-3 rounded w-full">
         <input
+          onChange={inputChange}
+          value={picture.name}
           type="text"
           name="name"
           placeholder="Nome"
           className="px-2 py-1 shadow rounded"
         />
         <input
+          onChange={inputChange}
+          value={picture.description}
           type="text"
           name="description"
           placeholder="Descrição"
           className="px-2 py-1 shadow rounded"
         />
         <input
+          onChange={inputChange}
+          value={picture.url}
           type="text"
           name="url"
           placeholder="url"
@@ -121,7 +122,18 @@ export default function Cookies() {
             ))}
           </div>
         </div>
-        <button className="bg-blue-500 hover:bg-blue-600 transition-colors text-white font-bold p-2 rounded">
+        <button
+          onClick={() => {
+            sendPicture(picture, cookie);
+            setPicture({
+              name: "",
+              description: "",
+              url: "",
+              tags: [],
+            });
+          }}
+          className="bg-blue-500 hover:bg-blue-600 transition-colors text-white font-bold p-2 rounded"
+        >
           Enviar
         </button>
       </div>
