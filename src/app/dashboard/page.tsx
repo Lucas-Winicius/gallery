@@ -4,33 +4,20 @@ import {
   TableBody,
   TableCaption,
   TableCell,
-  TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { useToast } from "@/components/ui/use-toast";
-import creationDate from "@/lib/creationDate";
-import { PlusIcon, TrashIcon } from "@/patterns/phosphoricons";
-import { ChangeEvent, MouseEventHandler, useEffect, useState } from "react";
+import { toast } from "@/components/ui/use-toast";
+import { PlusIcon } from "@/patterns/phosphoricons";
+import { ChangeEvent, useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import axios from "axios";
+import TableTitles from "./components/tableTitles";
+import TableData from "./components/TableData";
 
 export default function Dashboard() {
-  const [pictures, setPictures] = useState<Picture[]>();
+  const [pictures, setPictures] = useState<Picture[]>([]);
   const [createPicture, setCreatePicture] = useState<Partial<Picture>>({});
-  const { toast } = useToast();
-
-  const toastCreator = (params: {
-    title: string;
-    description: string;
-    destructive?: boolean;
-  }) => {
-    return toast({
-      title: params.title,
-      description: params.description,
-      variant: params.destructive ? "destructive" : "default",
-    });
-  };
 
   useEffect(() => {
     const apiUrl = process.env.NEXT_PUBLIC_API_URL;
@@ -59,10 +46,10 @@ export default function Dashboard() {
     const authCode = Cookies.get("auth");
 
     if (!name && !description && !tags?.length && !url)
-      return toastCreator({
+      return toast({
         title: "Ooopss!",
         description: "Something is not right check all fields.",
-        destructive: true,
+        variant: "destructive",
       });
 
     axios({
@@ -78,38 +65,10 @@ export default function Dashboard() {
         setPictures(Array.isArray(pictures) ? [d.data, ...pictures] : [d.data]);
       })
       .catch((e) =>
-        toastCreator({
+        toast({
           title: "Ooopss!",
           description: JSON.stringify(e.message),
-          destructive: true,
-        })
-      );
-  };
-
-  const deletePicture = (id: string) => {
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-    const authCode = Cookies.get("auth");
-
-    axios({
-      method: "DELETE",
-      url: `${apiUrl}/gallery/${id}`,
-      headers: {
-        token: authCode,
-        "Content-type": "application/json",
-      },
-    })
-      .then((response) => response.data)
-      .then((data) => {
-        const newPictures = pictures?.filter(
-          (picture) => data.id !== picture.id
-        );
-        setPictures(newPictures);
-      })
-      .catch((e) =>
-        toastCreator({
-          title: "Ooopss!",
-          description: JSON.stringify(e.message),
-          destructive: true,
+          variant: "destructive",
         })
       );
   };
@@ -119,14 +78,7 @@ export default function Dashboard() {
       <Table>
         <TableCaption>A list of your recent pictures.</TableCaption>
         <TableHeader>
-          <TableRow>
-            <TableHead className="w-[100px]">Title</TableHead>
-            <TableHead>Description</TableHead>
-            <TableHead>Url</TableHead>
-            <TableHead>Tags</TableHead>
-            <TableHead>Date</TableHead>
-            <TableHead>Actions</TableHead>
-          </TableRow>
+          <TableTitles />
         </TableHeader>
         <TableBody>
           <TableRow>
@@ -173,23 +125,7 @@ export default function Dashboard() {
               </button>
             </TableCell>
           </TableRow>
-          {pictures?.map((picture) => (
-            <TableRow key={picture.id}>
-              <TableCell>{picture.name}</TableCell>
-              <TableCell>{picture.description}</TableCell>
-              <TableCell>{picture.url}</TableCell>
-              <TableCell>{picture.tags.join(", ")}</TableCell>
-              <TableCell>{creationDate(picture.createdAt)}</TableCell>
-              <TableCell>
-                <button
-                  className="cursor-pointer"
-                  onClick={() => deletePicture(picture.id)}
-                >
-                  <TrashIcon color="black" />
-                </button>
-              </TableCell>
-            </TableRow>
-          ))}
+          <TableData pictures={pictures} />
         </TableBody>
       </Table>
     </main>
