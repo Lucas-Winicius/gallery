@@ -68,8 +68,9 @@ export default function Dashboard() {
     axios({
       method: "POST",
       url: `${apiUrl}/gallery`,
-      params: {
-        authCode,
+      headers: {
+        token: authCode,
+        "Content-type": "application/json",
       },
       data: createPicture,
     })
@@ -92,8 +93,9 @@ export default function Dashboard() {
     axios({
       method: "DELETE",
       url: `${apiUrl}/gallery/${id}`,
-      params: {
-        authCode,
+      headers: {
+        token: authCode,
+        "Content-type": "application/json",
       },
     })
       .then((response) => response.data)
