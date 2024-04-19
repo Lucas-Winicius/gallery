@@ -1,6 +1,7 @@
 "use client";
 import {
   ArrowLeft,
+  ArrowUp,
   GithubLogo,
   InstagramLogo,
   LinkedinLogo,
@@ -53,4 +54,8 @@ export function TrashIcon({ size, color }: { size?: number; color?: string }) {
 
 export function ArrowLeftIcon({ size, color }: { size?: number; color?: string }) {
   return <ArrowLeft size={size || 23} weight="bold" color={color || "white"} />;
+}
+
+export function ArrowUpIcon({ size, color }: { size?: number; color?: string }) {
+  return <ArrowUp size={size || 23} weight="bold" color={color || "white"} />;
 }

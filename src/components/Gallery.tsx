@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import Link from "next/link";
+import BackToTop from "./BackToTop";
 
 export default function Gallery({ pictures }: { pictures?: Picture[] }) {
   return (
@@ -13,6 +14,7 @@ export default function Gallery({ pictures }: { pictures?: Picture[] }) {
           />
         </Link>
       ))}
+      <BackToTop/>
     </main>
   );
 }
